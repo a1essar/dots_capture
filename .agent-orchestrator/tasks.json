@@ -1,0 +1,350 @@
+{
+  "$schema": "Task list for agent orchestration. Status enum: todo | in_progress | ready_to_test | in_test | done | blocked | blocked_by_issue",
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "title": "Bootstrap app: Vite + React + TS + Router + Playwright",
+      "description": "Scaffold the web app in this project root so it can be run by the orchestrator (package.json at repo root). Add React Router routes for '/', '/match', '/game', '/result', '/settings'. Add Tailwind (per TechnicalSpecification) and basic screen placeholders with working navigation. Install/configure Playwright e2e (headed/CI defaults ok). Ensure `npm run lint`, `npm run build`, and `npx playwright test` (empty/basic smoke) all pass.",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 1,
+      "dependencies": [],
+      "notes": "Lint, build, e2e smoke pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-002",
+      "title": "App state + routing guards + UI settings persistence",
+      "description": "Implement `GameState` + `UISettings` as single sources of truth (contexts + useReducer, per TechnicalSpecification). Add routing guards: entering '/game' requires valid match settings/state else redirect to '/match'; entering '/result' requires finished state else redirect to '/game'. Persist UI settings to localStorage and apply them live. Keep logic/testability: core game rules must not live in React components.",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 2,
+      "dependencies": [
+        "TASK-001"
+      ],
+      "notes": "QA: e2e task-002-state-guards-persistence.spec.ts added; all 20 Playwright tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-003",
+      "title": "Core model: types, board helpers, deterministic updates",
+      "description": "Create `core/` module with model types from GDS: PlayerId, CellState, GameSettings, GameState. Implement key helpers `toKey(x,y)` / `fromKey(key)`. Implement safe immutable update patterns for `board: Map<\"x,y\", CellState>` (absence = empty). Add minimal unit-test-ready structure (no React/Pixi imports).",
+      "spec": "specs/GameDesignSpecification.md",
+      "status": "done",
+      "priority": 3,
+      "dependencies": [
+        "TASK-002"
+      ],
+      "notes": "QA: e2e task-003-core-model.spec.ts (4 tests); all 24 Playwright tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-004",
+      "title": "Core rules: move legality + applyMove (no capture yet)",
+      "description": "Implement `core/rules/isMoveLegal(state,x,y)` and `core/rules/applyMove(state,x,y)` per GDS: one point per turn, cannot place on occupied intersection or on opponent territory. Update moveHistory, toggle currentPlayer. Do not include capture logic here (separate module). Add controller integration point so UI can call `placePoint(x,y)` and get updated state or a rejected move result.",
+      "spec": "specs/GameDesignSpecification.md",
+      "status": "done",
+      "priority": 4,
+      "dependencies": [
+        "TASK-003"
+      ],
+      "notes": "QA: e2e task-004-move-legality-applyMove.spec.ts (4 tests); all 28 Playwright tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-005",
+      "title": "Capture algorithm: flood-fill + territory + scoring",
+      "description": "Implement `core/capture/computeCapturesAfterMove` strictly per GDS: start from active opponent points, flood-fill spreads 4-directionally; walls are ONLY active points of current player; fill passes through empty, opponent active points, captured points, and territory. If flood reaches board edge => not captured. If closed => mark enclosed opponent active points as captured and award +1 per newly-captured point; mark enclosed empty intersections as territory of current player. Do not create \"cells\"; everything operates on intersections. Ensure capture is applied after each move.",
+      "spec": "specs/GameDesignSpecification.md",
+      "status": "done",
+      "priority": 5,
+      "dependencies": [
+        "TASK-004"
+      ],
+      "notes": "QA: e2e task-005-capture.spec.ts (4 tests); all 32 Playwright tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-006",
+      "title": "Game lifecycle: restart, surrender, finish, winner/draw",
+      "description": "Implement end conditions and flows per specs: no legal moves => finish; surrender => finish with opponent winner; restart => reset same settings; back to menu clears game state; rematch => new game with same settings. Ensure `/result` shows correct winner/draw and score; enforce route guard rules.",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 6,
+      "dependencies": [
+        "TASK-005"
+      ],
+      "notes": "QA: e2e task-006-game-lifecycle.spec.ts (6 tests); all 38 Playwright tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-007",
+      "title": "Bots: easy/medium/hard + async integration",
+      "description": "Implement bot interface and strategies from GDS (bot is always Player 2 in PVC). Easy: random with immediate capture priority. Medium: scoring function. Hard: minimax (depth 2-3) with alpha-beta and relevant-moves pruning; respect time budget (≤200ms guidance). Integrate in GameController: when it's bot turn, lock input, show 'Bot thinking…', then apply bot move.",
+      "spec": "specs/GameDesignSpecification.md",
+      "status": "done",
+      "priority": 7,
+      "dependencies": [
+        "TASK-006"
+      ],
+      "notes": "QA: e2e task-007-bots-pvc.spec.ts (5 tests); all 43 Playwright tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-008",
+      "title": "Pixi renderer: board view, layers, resize, input mapping",
+      "description": "Implement `renderer/` PixiJS adapter per TechnicalSpecification: mount Pixi Application into DOM container, maintain layers (grid/territory/points/hover/effects), compute layout (step/origin) on resize (ResizeObserver) and DPR cap. Render: grid, points (active + captured styling), territory markers on intersections. Implement hit-testing and pointer input mapping pixels->(x,y) and call GameController intent. Ensure renderer is read-only over GameState (no rule logic inside renderer).",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 8,
+      "dependencies": [
+        "TASK-006",
+        "TASK-009"
+      ],
+      "notes": "QA: renderer verified per spec. E2E task-008-pixi-renderer.spec.ts: 5 tests with console collection + allowlist. All 60 Playwright tests pass.",
+      "retries": 1,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": "2026-02-13T20:28:41.241Z"
+    },
+    {
+      "id": "TASK-009",
+      "title": "UI: Start + Match screens (mode/presets/colors/difficulty)",
+      "description": "Implement Start screen: PVP, PVC, Settings. Implement Match screen per TechnicalSpecification: presets (20x20, 30x20, 40x30), player colors, bot difficulty for PVC, validations (colors must differ; difficulty required for PVC). Start Game creates new GameState and navigates to '/game'. Add stable `data-testid` attributes for e2e and visual checks.",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 9,
+      "dependencies": [
+        "TASK-002"
+      ],
+      "notes": "QA: Start/Match verified per spec. E2E task-009-start-match-screens.spec.ts: 10 tests pass (console collection + allowlist). All 60 Playwright tests pass.",
+      "retries": 1,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": "2026-02-13T20:15:41.572Z"
+    },
+    {
+      "id": "TASK-010",
+      "title": "UI: Game screen + controller integration",
+      "description": "Implement Game screen layout (top bar, status panel, action bar) per TechnicalSpecification. Integrate PixiBoardView into the canvas container and wire input to GameController. Show score, current turn indicator (and bot thinking state in PVC). Implement Surrender/Restart buttons. Add stable selectors (`data-testid`) for: canvas container, score, current player label, and action buttons.",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 10,
+      "dependencies": [
+        "TASK-008",
+        "TASK-009",
+        "TASK-007"
+      ],
+      "notes": "QA: Game screen verified per spec. E2E task-010-game-screen.spec.ts: 6 tests (layout, canvas, score/turn, Surrender, Restart, PVC turn). Console collection + allowlist. All 66 Playwright tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-011",
+      "title": "UI: Result screen",
+      "description": "Implement Result screen per TechnicalSpecification: winner/draw title, final score, Rematch and Back to Menu actions. Ensure route guards are enforced and transitions work from a finished GameState.",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 11,
+      "dependencies": [
+        "TASK-006",
+        "TASK-010"
+      ],
+      "notes": "QA: Result screen verified per spec. E2E task-011-result-screen.spec.ts: 6 tests (title/score/buttons, guards, Rematch, Back to Menu). Console collection + allowlist. All 72 Playwright tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-012",
+      "title": "UI: Settings screen + live renderer options",
+      "description": "Implement Settings screen per specs: animations toggle, highlight potential capture toggle, point size slider, line thickness slider. Persist in localStorage and apply live to renderer (sizes/styling). Add a 'Reduced motion' handling (respect prefers-reduced-motion; minimal). Add stable `data-testid` attributes for toggles and sliders to support e2e and visual checks.",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 12,
+      "dependencies": [
+        "TASK-008",
+        "TASK-002"
+      ],
+      "notes": "QA: Settings screen verified per spec. E2E task-012-settings-screen.spec.ts: 9 tests (layout, toggles, sliders, persistence, Back, data-testids). Console collection + allowlist. All 81 Playwright tests pass. data-testid on toggles/sliders; reduced motion respected.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-013",
+      "title": "Checkpoint: Playwright screenshots — Start + Match (visual smoke)",
+      "description": "Add a visual checkpoint for UI correctness. Dev: ensure deterministic rendering for tests (disable animations in e2e mode if needed), add stable `data-testid` hooks. QA: create Playwright tests that navigate to Start and Match screens and capture screenshots (prefer `expect(page).toHaveScreenshot(...)` baselines). After run, open produced screenshots/snapshots and visually verify that the screen is rendered correctly (layout, buttons visible, no overflow).",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 13,
+      "dependencies": [
+        "TASK-009"
+      ],
+      "notes": "Dev: task-013-visual-start-match.spec.ts (3 screenshot tests), deterministic viewport + no animations. QA: added console collection + allowlist; fixed init script appendChild null guard. All 3 visual tests pass (Start, Match PVP, Match PVC). 84 Playwright tests pass. Snapshots in e2e/task-013-visual-start-match.spec.ts-snapshots/.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-014",
+      "title": "Checkpoint: Playwright screenshots — Game board initial + after 1 move",
+      "description": "Add a visual checkpoint for canvas rendering. Dev: provide stable test hooks and deterministic canvas size (set viewport in tests; avoid random). QA: Playwright test starts a match, lands on '/game', takes screenshot of initial empty board and after placing one point at a known intersection. Agent must verify by screenshots that grid/intersections are visible, point renders at expected position, and UI panels do not overlap the canvas.",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 14,
+      "dependencies": [
+        "TASK-010",
+        "TASK-004"
+      ],
+      "notes": "Dev: layout data attrs + task-014-visual-game-board.spec.ts; 2 screenshot tests, baselines in e2e/...-snapshots. QA: console collection + allowlist present; viewport 1280x720, goToGame, initial + after one move at (1,1). All 86 Playwright tests pass; TASK-014 set to done.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-015",
+      "title": "Checkpoint: Playwright screenshots — capture scenario (territory + captured points)",
+      "description": "Add a visual checkpoint for capture mechanics rendering. QA: write a Playwright test that plays a scripted sequence of moves that results in a capture per GDS. Capture screenshots right after the capturing move. Verify by screenshot that: (1) territory markers/overlay appears inside contour, (2) opponent points inside become visually 'captured' (dimmed/marked), (3) score increments correctly. If deterministic setup is hard, Dev may add a test-only debug hook to set GameState (must be gated to e2e mode only).",
+      "spec": "specs/GameDesignSpecification.md",
+      "status": "done",
+      "priority": 15,
+      "dependencies": [
+        "TASK-005",
+        "TASK-014"
+      ],
+      "notes": "e2e/task-015-visual-capture.spec.ts: scripted capture + toHaveScreenshot; 87 tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-016",
+      "title": "Checkpoint: Playwright screenshots — Result screen",
+      "description": "Add a visual checkpoint for Result screen. QA: create Playwright test(s) that reach a finished game state (surrender is acceptable) and capture a screenshot of '/result'. Verify winner/draw text and final score are visible and the buttons are accessible. Prefer stable paths (e.g. click Surrender) over long play sequences.",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 16,
+      "dependencies": [
+        "TASK-011"
+      ],
+      "notes": "e2e/task-016-visual-result.spec.ts: Surrender→/result screenshot + assertions; baseline in -snapshots. QA: console collection + allowlist; winner/draw title, final score, Rematch and Back to Menu visible and enabled; toHaveScreenshot result-screen.png. All 88 Playwright tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-017",
+      "title": "Checkpoint: Playwright screenshots — Settings affect canvas (sizes/thickness)",
+      "description": "Add a visual checkpoint that Settings changes affect Pixi rendering. QA: Playwright test opens Settings, changes point size and line thickness to extremes, returns to game (or applies live), then captures screenshots before/after. Agent must verify by screenshot that points and lines noticeably change and remain correctly aligned to intersections (no blur/off-grid).",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 17,
+      "dependencies": [
+        "TASK-012",
+        "TASK-010"
+      ],
+      "notes": "e2e/task-017-visual-settings-canvas.spec.ts: 3 toHaveScreenshot tests (default, extremes min, extremes max). Console collection + allowlist. QA: all 91 Playwright tests pass; points/lines aligned. TASK-017 done.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-018",
+      "title": "Feature: potential capture highlight (toggle-driven)",
+      "description": "Implement the 'Highlight potential capture' feature end-to-end. Core: given current state + hypothetical move (x,y), compute whether it would create a capture (reuse capture logic via simulation without mutating real state). Renderer/UI: when setting is enabled, show an unobtrusive overlay for the would-be captured territory/points on hover/aim (desktop hover or tap-hold if implemented). When disabled, no extra work/render. Keep KISS: ok to highlight only on hover target intersection (not all moves).",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 18,
+      "dependencies": [
+        "TASK-005",
+        "TASK-008",
+        "TASK-010",
+        "TASK-012"
+      ],
+      "notes": "Implemented: getPotentialCapture in core; overlay on hover when highlight setting on. QA: e2e/task-018-potential-capture-highlight.spec.ts (3 tests, console allowlist, toHaveScreenshot on/off). All 94 Playwright tests pass.",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-019",
+      "title": "Checkpoint: Playwright screenshots — potential capture highlight overlay",
+      "description": "Add a visual checkpoint for the potential capture highlight overlay. QA: create a Playwright test that reaches a known pre-capture board state, enables the highlight setting, hovers/aims at the intersection that would capture, and takes a screenshot with overlay visible. Verify by screenshot that overlay is present only when enabled and disappears when disabled. Prefer deterministic setup (scripted moves or an e2e-only debug hook gated to e2e mode).",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 19,
+      "dependencies": [
+        "TASK-018"
+      ],
+      "notes": "e2e/task-019-potential-capture-checkpoint.spec.ts: 2 toHaveScreenshot tests (overlay on/off). Lint, build, TASK-019 tests pass. Unrelated: task-008 one test flaky (Second click/turn).",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-020",
+      "title": "Fix: Start Game -> /game race vs GameRouteGuard (state not visible)",
+      "description": "Bug: после клика `Start Game` навигация на `/game` происходит до того, как `GameRouteGuard` видит новый `gameState`, из-за чего гард редиректит обратно на `/match`. Это ломает e2e (таймаут `getByTestId('screen-game')`) и вызывает цикл по задачам TASK-008/TASK-009.\n\nRoot cause candidates:\n- `navigate('/game')` вызывается в том же тике, что и `dispatch(NEW_MATCH)`, и в момент маунта `/game` гард ещё видит `gameState === null`.\n\nWhere:\n- `src/screens/MatchScreen.tsx`: Start Game handler.\n- `src/app/router/guards.tsx`: `GameRouteGuard` редиректит в `/match`, если `!gameState` или `!isValidGameState`.\n- `src/app/state/gameContext.tsx`: `startMatch(settings, onReady?)` уже поддерживает `onReady` после `flushSync(dispatch(...))`.\n\nRequired fix:\n- Сделать переход в `/game` строго ПОСЛЕ коммита нового `gameState`.\n- Предпочтительно: в `MatchScreen` вызывать `startMatch(settings, () => navigate('/game', { replace: true }))` и убрать/не допустить навигацию, которая может срабатывать без клика пользователя (например, из-за уже существующего `gameState`).\n- Убедиться, что не возникает авто-редиректа при открытии `/match` с уже существующим `gameState`, если пользователь не нажимал Start Game.\n\nAcceptance criteria:\n- После клика `Start Game` всегда попадаем на `/game` (виден `data-testid=\"screen-game\"`), без флапа `/game` -> `/match`.\n- Playwright: `e2e/task-009-start-match-screens.spec.ts` — 10/10 проходят (включая 2 теста на переход в `/game`).\n- Playwright: `e2e/task-008-pixi-renderer.spec.ts` — `goToGame()` больше не падает на ожидании `screen-game`.\n- Lint + build не ломаются.\n\nTest plan:\n- `npm run lint`\n- `npm run build`\n- `npx playwright test e2e/task-009-start-match-screens.spec.ts`\n- `npx playwright test e2e/task-008-pixi-renderer.spec.ts`",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 1,
+      "dependencies": [
+        "TASK-002"
+      ],
+      "notes": "",
+      "retries": 0,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": ""
+    },
+    {
+      "id": "TASK-021",
+      "title": "Fix: error in browser console at /game screen",
+      "description": "The above error occurred in the <PixiBoardView> component: at PixiBoardView (http://localhost:5173/src/renderer/PixiBoardView.tsx:24:3) at div at div at div at GameScreen (http://localhost:5173/src/screens/GameScreen.tsx:26:20) at GameRouteGuard (http://localhost:5173/src/app/router/guards.tsx:25:34) at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=a6047533:4131:5) at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=a6047533:4601:5) at App at GameProvider (http://localhost:5173/src/app/state/gameContext.tsx:31:32) at UISettingsProvider (http://localhost:5173/src/app/state/uiSettingsContext.tsx:29:3) at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=a6047533:4544:15) at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=a6047533:5290:5) Consider adding an error boundary to your tree to customize error handling behavior. Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.",
+      "spec": "specs/TechnicalSpecification.md",
+      "status": "done",
+      "priority": 0,
+      "dependencies": [
+        "TASK-002"
+      ],
+      "notes": "BLOCKER_SIGNATURE: Start Game -> /game; guard redirects to /match; screen-game never visible.\nBLOCKER_SEVERITY: blocker\nAFFECTED_TASKS: TASK-021\nSUSPECTED_FILES: src/app/router/guards.tsx, src/screens/MatchScreen.tsx, src/app/state/gameContext.tsx\nE2E task-021: both tests fail at goToGame — getByTestId('screen-game') timeout 20s after Start Game click. Cannot verify PixiBoardView console fix until navigation/guard race (TASK-020) is fixed. Code review: PixiBoardView defensive fixes (try/catch, cssColorToHex fallback, valid width/height) are present and correct.",
+      "retries": 2,
+      "max_retries": 3,
+      "created_at": "",
+      "updated_at": "2026-02-13T22:23:08.609Z"
+    }
+  ]
+}

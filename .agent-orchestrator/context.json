@@ -1,0 +1,299 @@
+{
+    "project": "",
+    "tech_stack": [
+        "React",
+        "Vite",
+        "TypeScript",
+        "Playwright"
+    ],
+    "completed_tasks": [
+        "TASK-001",
+        "TASK-002",
+        "TASK-003",
+        "TASK-004",
+        "TASK-005",
+        "TASK-006",
+        "TASK-007",
+        "TASK-008",
+        "TASK-009",
+        "TASK-010",
+        "TASK-011",
+        "TASK-012",
+        "TASK-013",
+        "TASK-014",
+        "TASK-015",
+        "TASK-016",
+        "TASK-017",
+        "TASK-018",
+        "TASK-019"
+    ],
+    "current_task": null,
+    "notes": [
+        {"task_id": "TASK-019", "agent": "qa", "message": "E2E task-019-potential-capture-checkpoint.spec.ts: 2 toHaveScreenshot tests (overlay enabled/disabled), deterministic 14-move pre-capture state, hover at (2,3). Console collection + allowlist. All 96 Playwright tests pass. TASK-019 set to done.", "timestamp": "2026-02-14T23:00:00.000Z"},
+        {"task_id": "TASK-019", "agent": "dev", "message": "Checkpoint: e2e/task-019-potential-capture-checkpoint.spec.ts — deterministic pre-capture state (14 moves), enable/disable highlight via Settings, hover at (2,3); toHaveScreenshot overlay-enabled / overlay-disabled. Lint, build pass; 2/2 TASK-019 tests pass. Pre-existing: task-008-pixi-renderer.spec.ts one test fails (Second click/turn).", "timestamp": "2026-02-14T22:00:00.000Z"},
+        {"task_id": "TASK-018", "agent": "qa", "message": "E2E task-018-potential-capture-highlight.spec.ts: 3 tests (overlay on/off screenshots, no console errors). All 94 Playwright tests pass. TASK-018 set to done.", "timestamp": "2026-02-14T21:30:00.000Z"},
+        {"task_id": "TASK-018", "agent": "dev", "message": "Potential capture highlight: core/getPotentialCapture(state,x,y) simulates move+capture; renderer overlay on hover when setting on; disabled = no compute/render. Lint and build pass.", "timestamp": "2026-02-14T20:00:00.000Z"},
+        {"task_id": "TASK-017", "agent": "qa", "message": "Settings affect canvas visual checkpoint: e2e/task-017-visual-settings-canvas.spec.ts — 3 toHaveScreenshot tests (default, extremes min 0.18/0.04, extremes max 0.35/0.15); console collection + allowlist; points/lines aligned at (1,1). All 91 Playwright tests pass. TASK-017 set to done.", "timestamp": "2026-02-14T19:00:00.000Z"},
+        {"task_id": "TASK-017", "agent": "dev", "message": "Settings affect canvas visual checkpoint: e2e/task-017-visual-settings-canvas.spec.ts — before (default), extremes min (0.18/0.04), extremes max (0.35/0.15); toHaveScreenshot; point at (1,1); console allowlist. Lint, build, 91 Playwright tests pass.", "timestamp": "2026-02-14T18:30:00.000Z"},
+        {"task_id": "TASK-016", "agent": "qa", "message": "Result screen visual checkpoint: e2e/task-016-visual-result.spec.ts — Surrender→/result, toHaveScreenshot result-screen.png; winner/draw title, final score, Rematch and Back to Menu visible and enabled; console collection + allowlist. All 88 Playwright tests pass. TASK-016 set to done.", "timestamp": "2026-02-14T17:00:00.000Z"},
+        {"task_id": "TASK-016", "agent": "dev", "message": "Result screen visual checkpoint: e2e/task-016-visual-result.spec.ts — go to /result via Surrender (stable path), toHaveScreenshot result-screen.png; assert winner/draw title, final score, Rematch and Back to Menu visible and enabled. Lint, build, 88 Playwright tests pass.", "timestamp": "2026-02-14T16:00:00.000Z"},
+        {"task_id": "TASK-015", "agent": "qa", "message": "Visual checkpoint capture: e2e/task-015-visual-capture.spec.ts verified. Scripted 15-move PVP sequence produces capture; screenshot after move; score 1 : 0 and turn Player 2 asserted; console collection + allowlist; no critical errors. All 87 Playwright tests pass. TASK-015 set to done.", "timestamp": "2026-02-14T15:00:00.000Z"},
+        {"task_id": "TASK-015", "agent": "dev", "message": "Capture visual checkpoint: e2e/task-015-visual-capture.spec.ts — scripted 15-move PVP sequence (P2 at (1,1) enclosed by P1 ring) produces capture; screenshot after move verifies territory overlay, captured point (dimmed/cross), score 1 : 0. No e2e-only hook; deterministic moves. Lint, build, 87 Playwright tests pass.", "timestamp": "2026-02-14T14:30:00.000Z"},
+        {"task_id": "TASK-014", "agent": "qa", "message": "Visual checkpoint Game board: e2e/task-014-visual-game-board.spec.ts — console collection + allowlist; viewport 1280x720, goToGame, initial empty board + after one move at (1,1). 2 toHaveScreenshot tests pass. All 86 Playwright tests pass. TASK-014 set to done.", "timestamp": "2026-02-14T12:00:00.000Z"},
+        {
+            "task_id": "TASK-014",
+            "agent": "dev",
+            "message": "Game board visual checkpoint: PixiBoardView exposes data-board-origin-x/y, data-board-step, data-board-width/height on redraw. e2e/task-014-visual-game-board.spec.ts — viewport 1280x720, animations disabled, goToGame (20×20), screenshot initial empty board + after one point at intersection (1,1). Baselines created; 2 toHaveScreenshot tests pass. Lint, build, 86 Playwright tests pass.",
+            "timestamp": "2026-02-15T00:45:00.000Z"
+        },
+        {
+            "task_id": "TASK-013",
+            "agent": "qa",
+            "message": "Visual checkpoint Start + Match: e2e/task-013-visual-start-match.spec.ts — console collection + allowlist added; init script fixed for null appendChild. All 3 toHaveScreenshot tests pass. 84 Playwright tests pass. TASK-013 set to done.",
+            "timestamp": "2026-02-14T23:59:00.000Z"
+        },
+        {
+            "task_id": "TASK-013",
+            "agent": "dev",
+            "message": "Visual checkpoint Start + Match: e2e/task-013-visual-start-match.spec.ts with toHaveScreenshot baselines (start-screen, match-screen-pvp, match-screen-pvc). Deterministic rendering: viewport 1280x720, addInitScript disables CSS transitions/animations. data-testids already present on Start/Match. Lint, build, 84 Playwright tests pass.",
+            "timestamp": "2026-02-15T00:30:00.000Z"
+        },
+        {
+            "task_id": "TASK-012",
+            "agent": "qa",
+            "message": "Settings screen verified per spec. E2E task-012-settings-screen.spec.ts: 9 tests pass (layout, toggles, sliders, persistence, Back). Console collection + allowlist. All 81 Playwright tests pass. TASK-012 set to done.",
+            "timestamp": "2026-02-14T23:45:00.000Z"
+        },
+        {
+            "task_id": "TASK-012",
+            "agent": "dev",
+            "message": "Settings screen: animations/highlight/point size/line thickness toggles and sliders with data-testid; persistence in localStorage; live apply to renderer (pointSize, lineThickness, effectiveAnimations). usePrefersReducedMotion + Reduced motion row note; effectiveAnimations = animations && !reducedMotion && !prefersReducedMotion. Lint, build, 27 unit tests pass.",
+            "timestamp": "2026-02-15T00:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-011",
+            "agent": "qa",
+            "message": "Result screen verified per spec. E2E task-011-result-screen.spec.ts: 6 tests pass (title/score/buttons, guards, Rematch, Back to Menu). Console collection + allowlist. All 72 Playwright tests pass. TASK-011 set to done.",
+            "timestamp": "2026-02-14T23:30:00.000Z"
+        },
+        {
+            "task_id": "TASK-011",
+            "agent": "dev",
+            "message": "Result screen verified per spec: winner/draw title, final score, Rematch (startMatch + /game), Back to Menu (clearGame + /). ResultRouteGuard enforces finished-only; GameRouteGuard redirects to /result when status becomes finished. Lint and build pass.",
+            "timestamp": "2026-02-14T23:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-010",
+            "agent": "qa",
+            "message": "Game screen verified per spec. E2E task-010-game-screen.spec.ts: 6 tests pass (layout, canvas, score/turn, Surrender, Restart, PVC). Console collection + allowlist. All 66 Playwright tests pass. TASK-010 set to done.",
+            "timestamp": "2026-02-14T22:15:00.000Z"
+        },
+        {
+            "task_id": "TASK-010",
+            "agent": "dev",
+            "message": "Game screen: top bar, status panel (score, turn + player color dot, bot thinking), canvas container with PixiBoardView wired to GameController; Surrender/Restart. data-testid: canvas-container, game-score, game-turn, button-surrender, button-restart. Lint, build, 27 unit tests pass.",
+            "timestamp": "2026-02-14T21:50:00.000Z"
+        },
+        {
+            "task_id": "TASK-008",
+            "agent": "qa",
+            "message": "Renderer verified per spec. E2E task-008: 5 tests with console collection + allowlist. All 60 Playwright tests pass. TASK-008 set to done.",
+            "timestamp": "2026-02-14T21:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-008",
+            "agent": "dev",
+            "message": "TASK-008 verified: renderer/ complete per spec (Pixi mount, layers, ResizeObserver, DPR cap, layout step/origin, grid/points/territory/hover, hit-test→placePoint, read-only). Lint, build, 27 unit tests pass. Set ready_to_test.",
+            "timestamp": "2026-02-14T20:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-009",
+            "agent": "qa",
+            "message": "Start/Match verified per spec. E2E task-009: 10 tests pass with console collection and allowlist. All 60 Playwright tests pass.",
+            "timestamp": "2026-02-14T19:30:00.000Z"
+        },
+        {
+            "task_id": "TASK-009",
+            "agent": "dev",
+            "message": "Start/Match screens verified per spec. startMatch(settings, onReady) with navigate in onReady (TASK-020). Presets 20x20/30x20/40x30, colors, PVC difficulty, validations, data-testids. Lint, build, 27 unit tests pass.",
+            "timestamp": "2026-02-14T18:42:00.000Z"
+        },
+        {
+            "task_id": "TASK-021",
+            "agent": "qa",
+            "message": "E2E failed: goToGame timeout (screen-game not visible after Start Game). Blocker: TASK-020 guard/navigate race. TASK-021 set to todo; PixiBoardView fix verified in code review.",
+            "timestamp": "2026-02-14T15:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-021",
+            "agent": "dev",
+            "message": "PixiBoardView: hardened redraw/layout with try/catch, valid width/height checks before computeLayout, cssColorToHex(unknown) fallback. Lint and build pass.",
+            "timestamp": "2026-02-14T14:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-021",
+            "agent": "qa",
+            "message": "PixiBoardView fix verified in code review. E2E task-021-game-console-error.spec.ts added (2 tests). Run failed: ERR_CONNECTION_REFUSED; TASK-021 set to todo until e2e re-run on stable env.",
+            "timestamp": "2026-02-14T12:30:00.000Z"
+        },
+        {
+            "task_id": "TASK-021",
+            "agent": "dev",
+            "message": "PixiBoardView: added defensive checks (gameState?.board, settings?.playerColors, all layer refs) so redraw/layout never run with invalid state; init failure clears refs and logs to console. tsconfig excludes *.test.ts/*.spec.ts so tsc build passes. Lint and build pass.",
+            "timestamp": "2026-02-14T12:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-008",
+            "agent": "qa",
+            "message": "Renderer verified per spec. E2E: all 5 task-008 tests fail at goToGame (screen-game timeout); root cause TASK-009 guard/navigate race. TASK-008 set to todo.",
+            "timestamp": "2026-02-13T20:30:00.000Z"
+        },
+        {
+            "task_id": "TASK-008",
+            "agent": "dev",
+            "message": "TASK-008: renderer/ complete per spec (Pixi mount, layers, ResizeObserver, DPR cap, layout step/origin, grid/points/territory/hover, hit-test pointer→placePoint, read-only). Added initial updateLayout+redraw after init. Lint, build, 27 unit tests pass.",
+            "timestamp": "2026-02-13T23:24:00.000Z"
+        },
+        {
+            "task_id": "TASK-008",
+            "agent": "qa",
+            "message": "TASK-008 in_test: renderer verified per spec. All 5 e2e fail at goToGame (screen-game timeout); root cause startMatch/navigate vs guard (TASK-009). Set status todo.",
+            "timestamp": "2026-02-13T22:35:00.000Z"
+        },
+        {
+            "task_id": "TASK-008",
+            "agent": "dev",
+            "message": "Renderer verified: PixiBoardView (mount, layers, ResizeObserver, DPR cap), layout (step/origin, hit-test), draw (grid/points/territory/hover), pointer→(x,y)→placePoint, read-only. Lint, build, 27 unit tests pass.",
+            "timestamp": "2026-02-13T20:17:00.000Z"
+        },
+        {
+            "task_id": "TASK-008",
+            "agent": "qa",
+            "message": "Renderer verified per spec. E2E: all 5 task-008 tests fail (goToGame timeout; startMatch/navigate race). TASK-008 set to todo.",
+            "timestamp": "2026-02-13T20:15:00.000Z"
+        },
+        {
+            "task_id": "TASK-009",
+            "agent": "qa",
+            "message": "Start/Match UI verified; e2e 8 pass, 2 fail (Start Game → /game: guard redirect, state/navigate race). TASK-009 set to todo.",
+            "timestamp": "2026-02-13T22:30:00.000Z"
+        },
+        {
+            "task_id": "TASK-009",
+            "agent": "dev",
+            "message": "Start screen: PVP/PVC/Settings links, Tailwind skeleton, data-testid (screen-start, start-card, start-title, start-subtitle, start-actions, link-pvp, link-pvc, link-settings). Match screen: presets 20x20/30x20/40x30, player color palettes+preview, bot difficulty for PVC, validations (colors differ, difficulty required). Start Game calls startMatch(settings) then navigate('/game'). data-testid throughout. Lint, build, 27 unit tests pass.",
+            "timestamp": "2026-02-13T21:54:00.000Z"
+        },
+        {
+            "task_id": "TASK-008",
+            "agent": "dev",
+            "message": "TASK-008 verified: renderer/ complete per spec. Lint, build, 27 unit tests pass. Ready for QA.",
+            "timestamp": "2026-02-13T21:48:00.000Z"
+        },
+        {
+            "task_id": "TASK-008",
+            "agent": "qa",
+            "message": "Renderer implementation verified per spec. E2E fail: goToGame never reaches screen-game (timeout); likely startMatch/navigate race vs guard. TASK-008 set to todo.",
+            "timestamp": "2026-02-13T22:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-007",
+            "agent": "qa",
+            "message": "Verified bot interface (easy/medium/hard), async integration, lock input and 'Bot thinking…'. Added e2e/task-007-bots-pvc.spec.ts (5 tests). All 43 Playwright tests pass.",
+            "timestamp": "2025-02-13T15:30:00.000Z"
+        },
+        {
+            "task_id": "TASK-007",
+            "agent": "dev",
+            "message": "Bots: core/bot (easy=random+capture priority, medium=scoring, hard=minimax alpha-beta depth 3, relevant moves, 200ms). GameContext: PVC bot turn triggers async getBotMove, lock input via botThinking, show 'Bot thinking…' on GameScreen. No legal move => FINISH winner 1. Lint, build, 27 unit + 38 e2e pass.",
+            "timestamp": "2025-02-13T14:27:00.000Z"
+        },
+        {
+            "task_id": "TASK-006",
+            "agent": "dev",
+            "message": "endConditions(state) in core/rules: no legal moves => finish, winner=opponent. PLACE_POINT applies endConditions; surrender/restart/rematch/back-to-menu and /result winner/draw/score already wired; guards enforced. Lint, build, 27 unit + 32 e2e pass.",
+            "timestamp": "2025-02-13T02:21:00.000Z"
+        },
+        {
+            "task_id": "TASK-006",
+            "agent": "qa",
+            "message": "Verified lifecycle (endConditions, surrender, restart, rematch, back-to-menu, /result winner/score). Added e2e/task-006-game-lifecycle.spec.ts (6 tests). All 38 Playwright tests pass.",
+            "timestamp": "2025-02-13T12:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-005",
+            "agent": "dev",
+            "message": "core/capture/computeCapturesAfterMove: flood-fill from active opponent points, 4-way; walls = active points of capturing player; closed region => captured + territory, score +1 per captured. Wired into applyMove. Lint, build, 23 unit + 28 e2e pass.",
+            "timestamp": "2025-02-13T02:16:00.000Z"
+        },
+        {
+            "task_id": "TASK-001",
+            "agent": "dev",
+            "message": "Bootstrap done: Vite+React+TS, React Router (/, /match, /game, /result, /settings), Tailwind placeholders, Playwright e2e smoke. Lint, build, playwright test pass.",
+            "timestamp": "2025-02-13T00:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-001",
+            "agent": "qa",
+            "message": "Verified bootstrap: all 5 routes reachable, e2e routes.spec.ts + smoke.spec.ts added; 7 Playwright tests pass.",
+            "timestamp": "2025-02-13T12:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-002",
+            "agent": "dev",
+            "message": "GameState + UISettings as contexts with useReducer; routing guards for /game (valid state) and /result (finished); UISettings persisted to localStorage and applied live; Back to Menu clears game from match/game/result. Lint, build, 9 Playwright tests pass.",
+            "timestamp": "2025-02-13T14:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-002",
+            "agent": "qa",
+            "message": "Verified state, guards, persistence. Added e2e/task-002-state-guards-persistence.spec.ts (11 tests). All 20 Playwright tests pass.",
+            "timestamp": "2025-02-13T15:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-003",
+            "agent": "dev",
+            "message": "Core model: GDS types (PlayerId, CellState with empty/point/territory, GameSettings with playerColors, GameState with moveHistory and winner draw). toKey/fromKey, getCell/setCell/setCells for immutable board updates. Vitest + board.test.ts (10 tests). Lint, build, unit + e2e pass.",
+            "timestamp": "2025-02-13T18:06:00.000Z"
+        },
+        {
+            "task_id": "TASK-003",
+            "agent": "qa",
+            "message": "Verified core types and board helpers; added e2e/task-003-core-model.spec.ts (4 tests). All 24 Playwright tests pass.",
+            "timestamp": "2025-02-13T19:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-004",
+            "agent": "dev",
+            "message": "core/rules: isMoveLegal(state,x,y) and applyMove(state,x,y) per GDS; placePoint(x,y) in gameContext returns PlacePointResult. No capture. Lint, build, 18 unit + 24 e2e pass.",
+            "timestamp": "2025-02-13T21:12:00.000Z"
+        },
+        {
+            "task_id": "TASK-004",
+            "agent": "qa",
+            "message": "Verified isMoveLegal/applyMove/placePoint; added e2e/task-004-move-legality-applyMove.spec.ts (4 tests). All 28 Playwright tests pass.",
+            "timestamp": "2025-02-13T22:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-005",
+            "agent": "qa",
+            "message": "Verified capture impl (computeCapturesAfterMove, applyMove). Added e2e/task-005-capture.spec.ts (4 tests). All 32 Playwright tests pass.",
+            "timestamp": "2025-02-13T12:00:00.000Z"
+        },
+        {
+            "task_id": "TASK-020",
+            "agent": "system",
+            "message": "Priority bugfix: Start Game -> /game race vs GameRouteGuard. Symptom: after clicking Start Game, screen-game never appears; guard redirects to /match. This blocks TASK-008/TASK-009 and caused orchestrator loop. Fix should ensure navigation happens only after gameState commit (use startMatch(settings, onReady) with flushSync, or equivalent), and avoid auto-redirect without explicit Start click.",
+            "timestamp": "2026-02-13T00:00:00.000Z"
+          }
+    ],
+    "known_issues": [
+        {
+            "id": "KI-001",
+            "title": "Start Game navigation race: /game guard sees null gameState",
+            "details": "After Start Game, navigate('/game') can occur before GameRouteGuard sees updated gameState, causing redirect back to /match and Playwright timeouts waiting for screen-game. Blocks TASK-008/TASK-009 and triggers orchestration loop.",
+            "affected_tasks": ["TASK-008", "TASK-009"],
+            "created_at": "2026-02-13T00:00:00.000Z"
+          }
+    ]
+}

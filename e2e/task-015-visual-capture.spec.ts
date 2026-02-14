@@ -1,6 +1,6 @@
 /**
  * TASK-015: Visual checkpoint — capture scenario (territory + captured points).
- * Scripted sequence of moves (PVP, 20×20) that produces a capture per GDS:
+ * Scripted sequence of moves (PVP, 10×10) that produces a capture per GDS:
  * one P2 point enclosed by P1 ring; after capturing move: territory overlay
  * inside contour, captured point dimmed/marked, score 1 : 0.
  */

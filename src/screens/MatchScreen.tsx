@@ -4,9 +4,9 @@ import type { GameSettings, PlayerId } from "../core/model/types";
 import { useGame } from "../app/state/gameContext";
 
 const PRESETS = [
+  { width: 10, height: 10, label: "10×10" },
+  { width: 10, height: 20, label: "10×20" },
   { width: 20, height: 20, label: "20×20" },
-  { width: 30, height: 20, label: "30×20" },
-  { width: 40, height: 30, label: "40×30" },
 ] as const;
 
 const PALETTE = [

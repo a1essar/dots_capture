@@ -22,7 +22,7 @@ test.describe("TASK-003: Core model integration (GameState, board, score)", () =
     await page.goto("/match");
     await page.getByTestId("link-start-game").click();
     await expect(page.getByTestId("screen-game")).toBeVisible();
-    await expect(page.getByText("PVP 20×20")).toBeVisible();
+    await expect(page.getByText("PVP 10×10")).toBeVisible();
   });
 
   test("Restart resets to same settings and initial score", async ({ page }) => {

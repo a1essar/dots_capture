@@ -1,6 +1,6 @@
 /**
  * TASK-014: Visual checkpoint — Game board initial + after 1 move.
- * Deterministic: fixed viewport, default 20×20 preset, animations disabled.
+ * Deterministic: fixed viewport, default 10×10 preset, animations disabled.
  * Screenshots: empty board, then after placing one point at known intersection (1,1).
  * Verify: grid/intersections visible, point at expected position, panels do not overlap canvas.
  */

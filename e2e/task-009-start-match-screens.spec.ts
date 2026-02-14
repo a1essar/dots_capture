@@ -85,15 +85,15 @@ test.describe("TASK-009: Start + Match screens (mode/presets/colors/difficulty)"
     expect(critical, `Browser console errors: ${critical.join("; ")}`).toHaveLength(0);
   });
 
-  test("Match screen has presets 20x20, 30x20, 40x30", async ({ page }) => {
+  test("Match screen has presets 10x10, 10x20, 20x20", async ({ page }) => {
     test.setTimeout(TEST_TIMEOUT);
     const consoleCollected = { errors: [] as string[] };
     attachConsoleCollector(page, consoleCollected);
     await page.goto("/match");
     await expect(page.getByTestId("match-presets")).toBeVisible();
+    await expect(page.getByTestId("preset-10x10")).toBeVisible();
+    await expect(page.getByTestId("preset-10x20")).toBeVisible();
     await expect(page.getByTestId("preset-20x20")).toBeVisible();
-    await expect(page.getByTestId("preset-30x20")).toBeVisible();
-    await expect(page.getByTestId("preset-40x30")).toBeVisible();
     const critical = consoleCollected.errors.filter((e) => !isAllowlisted(e));
     expect(critical, `Browser console errors: ${critical.join("; ")}`).toHaveLength(0);
   });

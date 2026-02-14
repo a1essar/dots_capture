@@ -16,10 +16,10 @@ export interface UISettings {
 const defaults: UISettings = {
   animations: true,
   highlightCapture: true,
-  pointSize: 0.25,
-  lineThickness: 0.08,
+  pointSize: 0.35,
+  lineThickness: 0.15,
   reducedMotion: false,
-  canvasQuality: "auto",
+  canvasQuality: "high",
 };
 
 export function loadUISettings(): UISettings {

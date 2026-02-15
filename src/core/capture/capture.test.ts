@@ -62,6 +62,7 @@ describe("computeCapturesAfterMove", () => {
     const p = getCell(nextBoard, 2, 1);
     expect(p.type).toBe("point");
     expect(p.type === "point" && p.captured).toBe(true);
+    if (p.type === "point" && p.captured) expect(p.capturedBy).toBe(1);
     const territoryCell = getCell(nextBoard, 2, 2);
     expect(territoryCell.type).toBe("territory");
     expect(territoryCell.type === "territory" && territoryCell.owner).toBe(1);
@@ -87,7 +88,7 @@ describe("computeCapturesAfterMove", () => {
   it("does not treat captured points as walls (fill passes through them)", () => {
     let board = new Map<string, CellState>();
     board = setCell(board, 2, 2, { type: "point", owner: 2, captured: false });
-    board = setCell(board, 2, 1, { type: "point", owner: 1, captured: true });
+    board = setCell(board, 2, 1, { type: "point", owner: 1, captured: true, capturedBy: 2 });
     board = setCell(board, 1, 1, { type: "point", owner: 1, captured: false });
     board = setCell(board, 3, 1, { type: "point", owner: 1, captured: false });
     board = setCell(board, 1, 2, { type: "point", owner: 1, captured: false });

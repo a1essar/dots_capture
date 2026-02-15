@@ -43,6 +43,32 @@ async function goToGame(page: import("@playwright/test").Page) {
   await expect(page.getByTestId("screen-game")).toBeVisible({ timeout: 20_000 });
 }
 
+/** Click at board intersection (x, y). Board layout from canvas-container [data-board-*]. */
+async function clickAtIntersection(
+  page: import("@playwright/test").Page,
+  x: number,
+  y: number
+) {
+  const boardInner = page
+    .getByTestId("canvas-container")
+    .locator("[data-board-step]")
+    .first();
+  await expect(boardInner).toHaveAttribute("data-board-step", /.+/, {
+    timeout: 5000,
+  });
+  const originX = Number(await boardInner.getAttribute("data-board-origin-x"));
+  const originY = Number(await boardInner.getAttribute("data-board-origin-y"));
+  const step = Number(await boardInner.getAttribute("data-board-step"));
+  expect(
+    Number.isFinite(originX) && Number.isFinite(originY) && Number.isFinite(step)
+  ).toBe(true);
+  const box = await boardInner.boundingBox();
+  expect(box).not.toBeNull();
+  const centerX = box!.x + originX + x * step;
+  const centerY = box!.y + originY + y * step;
+  await page.mouse.click(centerX, centerY);
+}
+
 test.describe("TASK-008: Pixi renderer — board view, layers, input mapping", () => {
   test("Canvas container is visible on game screen and contains Pixi canvas", async ({
     page,
@@ -84,13 +110,8 @@ test.describe("TASK-008: Pixi renderer — board view, layers, input mapping", (
     attachConsoleCollector(page, consoleCollected);
     await goToGame(page);
     await expect(page.getByTestId("game-turn")).toContainText("Player 1");
-    const container = page.getByTestId("canvas-container");
-    await expect(container).toBeVisible();
-    const box = await container.boundingBox();
-    expect(box).not.toBeNull();
-    const centerX = (box!.x + box!.width) / 2;
-    const centerY = (box!.y + box!.height) / 2;
-    await page.mouse.click(centerX, centerY);
+    await expect(page.getByTestId("canvas-container")).toBeVisible();
+    await clickAtIntersection(page, 1, 1);
     await expect(page.getByTestId("game-turn")).toContainText("Player 2", {
       timeout: 5000,
     });
@@ -105,16 +126,12 @@ test.describe("TASK-008: Pixi renderer — board view, layers, input mapping", (
     const consoleCollected = { errors: [] as string[] };
     attachConsoleCollector(page, consoleCollected);
     await goToGame(page);
-    const container = page.getByTestId("canvas-container");
-    const box = await container.boundingBox();
-    expect(box).not.toBeNull();
-    const cx = (box!.x + box!.width) / 2;
-    const cy = (box!.y + box!.height) / 2;
-    await page.mouse.click(cx, cy);
+    await expect(page.getByTestId("canvas-container")).toBeVisible();
+    await clickAtIntersection(page, 1, 1);
     await expect(page.getByTestId("game-turn")).toContainText("Player 2", {
       timeout: 5000,
     });
-    await page.mouse.click(cx + 40, cy + 40);
+    await clickAtIntersection(page, 2, 2);
     await expect(page.getByTestId("game-turn")).toContainText("Player 1", {
       timeout: 5000,
     });

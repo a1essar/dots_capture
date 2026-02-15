@@ -85,7 +85,7 @@ test.describe("TASK-013: Visual smoke — Start + Match screens", () => {
     await disableAnimationsForScreenshot(page);
     await page.goto("/match?mode=PVC");
     await expect(page.getByTestId("screen-match")).toBeVisible();
-    await expect(page.getByTestId("match-difficulty")).toBeVisible();
+    await expect(page.getByTestId("match-form")).toBeVisible();
     await expect(page).toHaveScreenshot("match-screen-pvc.png", {
       fullPage: true,
     });

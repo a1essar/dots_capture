@@ -119,7 +119,7 @@ export function computeCapturesAfterMove(state: GameState): CaptureResult {
     updates.push({
       x,
       y,
-      state: { type: "point", owner: opponent, captured: true },
+      state: { type: "point", owner: opponent, captured: true, capturedBy: capturingPlayer },
     });
   }
   for (const { x, y } of emptyToTerritory) {

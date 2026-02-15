@@ -6,7 +6,8 @@ export type PlayerId = 1 | 2;
 
 export type CellState =
   | { type: "empty" }
-  | { type: "point"; owner: PlayerId; captured: boolean }
+  | { type: "point"; owner: PlayerId; captured: false }
+  | { type: "point"; owner: PlayerId; captured: true; capturedBy: PlayerId }
   | { type: "territory"; owner: PlayerId };
 
 export interface GameSettings {

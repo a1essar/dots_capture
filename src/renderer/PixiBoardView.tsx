@@ -11,6 +11,7 @@ import { computeLayout, pixelsToIntersection, distanceToIntersection } from "./l
 import {
   drawGrid,
   drawTerritory,
+  drawCaptureContours,
   drawPoints,
   drawHover,
   drawPotentialCaptureOverlay,
@@ -45,6 +46,7 @@ export function PixiBoardView({
   const cameraRef = useRef<Container | null>(null);
   const gridLayerRef = useRef<Container | null>(null);
   const territoryLayerRef = useRef<Container | null>(null);
+  const contoursLayerRef = useRef<Container | null>(null);
   const pointsLayerRef = useRef<Container | null>(null);
   const hoverLayerRef = useRef<Container | null>(null);
   const potentialCaptureLayerRef = useRef<Container | null>(null);
@@ -77,15 +79,17 @@ export function PixiBoardView({
       const camera = cameraRef.current;
       const gridLayer = gridLayerRef.current;
       const territoryLayer = territoryLayerRef.current;
+      const contoursLayer = contoursLayerRef.current;
       const pointsLayer = pointsLayerRef.current;
       const hover = hoverLayerRef.current;
-      if (!app || !layout || !camera || !gridLayer || !territoryLayer || !pointsLayer || !hover) return;
+      if (!app || !layout || !camera || !gridLayer || !territoryLayer || !contoursLayer || !pointsLayer || !hover) return;
       if (!gameState?.board || !gameState?.settings?.playerColors) return;
       const { board, currentPlayer, settings } = gameState;
       const { width, height, playerColors } = settings;
       if (typeof width !== "number" || typeof height !== "number" || width < 1 || height < 1) return;
       drawGrid(gridLayer, layout, width, height);
       drawTerritory(territoryLayer, layout, board, width, height, playerColors);
+      drawCaptureContours(contoursLayer, layout, board, width, height, playerColors);
       drawPoints(pointsLayer, layout, board, width, height, playerColors);
       const valid = hoverCell ? isMoveValidRef.current(hoverCell.x, hoverCell.y) : false;
       drawHover(hover, layout, hoverCell, currentPlayer, playerColors, valid);
@@ -150,11 +154,12 @@ export function PixiBoardView({
     const camera = new Container();
     const gridLayer = new Container();
     const territoryLayer = new Container();
+    const contoursLayer = new Container();
     const pointsLayer = new Container();
     const hoverLayer = new Container();
     const potentialCaptureLayer = new Container();
     const effectsLayer = new Container();
-    camera.addChild(gridLayer, territoryLayer, pointsLayer, hoverLayer, potentialCaptureLayer, effectsLayer);
+    camera.addChild(gridLayer, territoryLayer, contoursLayer, pointsLayer, hoverLayer, potentialCaptureLayer, effectsLayer);
 
     const init = async (): Promise<() => void> => {
       app = new Application();
@@ -178,6 +183,7 @@ export function PixiBoardView({
       cameraRef.current = camera;
       gridLayerRef.current = gridLayer;
       territoryLayerRef.current = territoryLayer;
+      contoursLayerRef.current = contoursLayer;
       pointsLayerRef.current = pointsLayer;
       hoverLayerRef.current = hoverLayer;
       potentialCaptureLayerRef.current = potentialCaptureLayer;
@@ -277,6 +283,7 @@ export function PixiBoardView({
       cameraRef.current = null;
       gridLayerRef.current = null;
       territoryLayerRef.current = null;
+      contoursLayerRef.current = null;
       pointsLayerRef.current = null;
       hoverLayerRef.current = null;
       potentialCaptureLayerRef.current = null;
@@ -301,6 +308,7 @@ export function PixiBoardView({
       cameraRef.current = null;
       gridLayerRef.current = null;
       territoryLayerRef.current = null;
+      contoursLayerRef.current = null;
       pointsLayerRef.current = null;
       hoverLayerRef.current = null;
       potentialCaptureLayerRef.current = null;

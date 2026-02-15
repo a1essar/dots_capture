@@ -7,11 +7,12 @@ import type { GameState, PlayerId } from "../model/types";
 import { setCell } from "../model/board";
 import { computeCapturesAfterMove } from "../capture/computeCapturesAfterMove";
 
-export function getImmediateCaptures(
+/** Minimal state needed for capture computation; avoids copying moveHistory/score. */
+function stateAfterPlaceForCapture(
   state: GameState,
   x: number,
   y: number
-): number {
+): GameState {
   const player = state.currentPlayer;
   const nextBoard = setCell(state.board, x, y, {
     type: "point",
@@ -19,12 +20,21 @@ export function getImmediateCaptures(
     captured: false,
   });
   const nextPlayer: PlayerId = player === 1 ? 2 : 1;
-  const stateAfterPlace = {
+  return {
     ...state,
     board: nextBoard,
     currentPlayer: nextPlayer,
-    moveHistory: [...state.moveHistory, { x, y, player }],
+    moveHistory: state.moveHistory,
+    score: state.score,
   };
+}
+
+export function getImmediateCaptures(
+  state: GameState,
+  x: number,
+  y: number
+): number {
+  const stateAfterPlace = stateAfterPlaceForCapture(state, x, y);
   const { scoreDelta } = computeCapturesAfterMove(stateAfterPlace);
   return scoreDelta;
 }

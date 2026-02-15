@@ -5,7 +5,7 @@
  */
 
 import type { GameState, PlayerId } from "../model/types";
-import { getCell, setCells, toKey, fromKey } from "../model/board";
+import { getCell, setCells } from "../model/board";
 import type { CellState } from "../model/types";
 
 const ORTH: [number, number][] = [
@@ -62,47 +62,50 @@ export function computeCapturesAfterMove(state: GameState): CaptureResult {
     }
   }
 
-  const processed = new Set<string>();
+  const toId = (x: number, y: number) => y * width + x;
+  const processed = new Set<number>();
   const pointsToCapture: Array<{ x: number; y: number }> = [];
   const emptyToTerritory: Array<{ x: number; y: number }> = [];
 
   for (const [sx, sy] of activeOpponentPoints) {
-    const key = toKey(sx, sy);
-    if (processed.has(key)) continue;
+    const startId = toId(sx, sy);
+    if (processed.has(startId)) continue;
 
-    const visited = new Set<string>();
+    const visited = new Set<number>();
     let reachedEdge = false;
     const queue: [number, number][] = [[sx, sy]];
-    visited.add(key);
+    let queueIdx = 0;
+    visited.add(startId);
 
-    while (queue.length > 0) {
-      const [x, y] = queue.shift()!;
+    while (queueIdx < queue.length) {
+      const [x, y] = queue[queueIdx]!;
+      queueIdx++;
       if (isEdge(x, y)) {
         reachedEdge = true;
       }
       for (const [dx, dy] of ORTH) {
         const nx = x + dx;
         const ny = y + dy;
-        const nk = toKey(nx, ny);
-        if (!canPass(nx, ny) || visited.has(nk)) continue;
-        visited.add(nk);
+        if (!canPass(nx, ny)) continue;
+        const nid = toId(nx, ny);
+        if (visited.has(nid)) continue;
+        visited.add(nid);
         queue.push([nx, ny]);
       }
     }
 
-    if (!reachedEdge) {
-      for (const k of visited) {
-        const coords = fromKey(k);
-        if (!coords) continue;
-        const [x, y] = coords;
-        const cell = getCell(board, x, y);
+    for (const id of visited) {
+      const x = id % width;
+      const y = Math.floor(id / width);
+      processed.add(id);
+      const cell = getCell(board, x, y);
+      if (!reachedEdge) {
         if (
           cell.type === "point" &&
           cell.owner === opponent &&
           !cell.captured
         ) {
           pointsToCapture.push({ x, y });
-          processed.add(k);
         } else if (cell.type === "empty") {
           emptyToTerritory.push({ x, y });
         }

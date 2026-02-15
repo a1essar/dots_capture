@@ -19,8 +19,8 @@ export interface BotMoveResult {
 export function getBotMove(
   state: GameState,
   _difficulty: BotDifficulty,
-  _options?: { timeBudgetMs?: number }
+  options?: { timeBudgetMs?: number }
 ): BotMoveResult | null {
-  const move = getNeuroMove(state);
+  const move = getNeuroMove(state, { timeBudgetMs: options?.timeBudgetMs });
   return move ? { x: move[0], y: move[1] } : null;
 }
